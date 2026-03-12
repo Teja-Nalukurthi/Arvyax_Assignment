@@ -1,0 +1,62 @@
+[
+  {
+    "id": "1",
+    "title": "Forest Focus",
+    "tag": "Focus",
+    "durationMinutes": 25,
+    "imageUrl": "https://picsum.photos/seed/forestfocus/800/600",
+    "description": "Immerse yourself in the gentle sounds of a forest dawn. Birdsong and rustling leaves guide your attention into a state of natural, effortless focus. Let the forest hold your awareness as your mind settles into deep work.",
+    "sensoryRecipes": ["Breeze", "Binaural", "Soft Rain", "Mist"],
+    "accentColor": "2D6A27"
+  },
+  {
+    "id": "2",
+    "title": "Ocean Drift",
+    "tag": "Calm",
+    "durationMinutes": 30,
+    "imageUrl": "https://picsum.photos/seed/oceandrift/800/600",
+    "description": "Let the rhythmic ebb and flow of ocean waves dissolve tension from your body. Each breath aligns with the tide as your nervous system finds its natural rhythm and your mind grows wide and still.",
+    "sensoryRecipes": ["Warm Light", "Breeze", "Binaural"],
+    "accentColor": "1A6B8A"
+  },
+  {
+    "id": "3",
+    "title": "Deep Sleep",
+    "tag": "Sleep",
+    "durationMinutes": 45,
+    "imageUrl": "https://picsum.photos/seed/deepsleep/800/600",
+    "description": "Drift into a deep, restorative sleep guided by delta wave frequencies and soft nocturnal ambience. A sanctuary of stillness crafted to quiet your thoughts and guide you effortlessly into rest.",
+    "sensoryRecipes": ["Binaural", "Mist", "Soft Rain"],
+    "accentColor": "1A1060"
+  },
+  {
+    "id": "4",
+    "title": "Morning Reset",
+    "tag": "Reset",
+    "durationMinutes": 10,
+    "imageUrl": "https://picsum.photos/seed/morningreset/800/600",
+    "description": "A brief, energising sequence to clear your mind and set clear intentions for the day. Light, movement-inspired tones create a fresh canvas for what lies ahead—ten minutes to arrive fully in the present.",
+    "sensoryRecipes": ["Warm Light", "Breeze"],
+    "accentColor": "B86B00"
+  },
+  {
+    "id": "5",
+    "title": "Mountain Mist",
+    "tag": "Calm",
+    "durationMinutes": 20,
+    "imageUrl": "https://picsum.photos/seed/mountainmist/800/600",
+    "description": "High-altitude stillness and cool mist envelop your awareness. The vast silence of mountain peaks brings perspective and a profound sense of peace, dissolving the noise of everyday life.",
+    "sensoryRecipes": ["Mist", "Binaural", "Breeze", "Soft Rain"],
+    "accentColor": "4A6B7C"
+  },
+  {
+    "id": "6",
+    "title": "Rain Study",
+    "tag": "Focus",
+    "durationMinutes": 35,
+    "imageUrl": "https://picsum.photos/seed/rainstudy/800/600",
+    "description": "The steady percussion of rainfall creates a natural cocoon for sustained focus. Your mind finds its rhythm as rain keeps time with your thoughts, making deep concentration feel effortless and pleasurable.",
+    "sensoryRecipes": ["Soft Rain", "Binaural", "Mist"],
+    "accentColor": "2E4A5E"
+  }
+]
