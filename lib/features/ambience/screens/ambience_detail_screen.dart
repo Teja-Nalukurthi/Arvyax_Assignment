@@ -45,7 +45,7 @@ class AmbienceDetailScreen extends ConsumerWidget {
     return SliverAppBar(
       expandedHeight: 280,
       pinned: true,
-      backgroundColor: AppColors.background,
+      backgroundColor: context.tokens.background,
       leading: GestureDetector(
         onTap: () => Navigator.of(context).pop(),
         child: Container(

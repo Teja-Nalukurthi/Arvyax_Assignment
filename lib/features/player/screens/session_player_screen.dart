@@ -74,6 +74,7 @@ class _SessionPlayerScreenState extends ConsumerState<SessionPlayerScreen> {
         }
       },
       child: Scaffold(
+        backgroundColor: AppColors.background,
         body: Stack(
           fit: StackFit.expand,
           children: [
@@ -263,7 +264,7 @@ class _SessionPlayerScreenState extends ConsumerState<SessionPlayerScreen> {
                   ? const Padding(
                       padding: EdgeInsets.all(20),
                       child: CircularProgressIndicator(
-                        color: AppColors.background,
+                        color: Colors.white,
                         strokeWidth: 2.5,
                       ),
                     )
@@ -271,7 +272,7 @@ class _SessionPlayerScreenState extends ConsumerState<SessionPlayerScreen> {
                       state.isPlaying
                           ? Icons.pause_rounded
                           : Icons.play_arrow_rounded,
-                      color: AppColors.background,
+                      color: Colors.white,
                       size: 36,
                     ),
             ),

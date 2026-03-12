@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../shared/theme/app_colors.dart';
+import '../../../shared/theme/app_theme.dart';
 
 const _moods = ['Calm', 'Grounded', 'Energized', 'Sleepy'];
 
@@ -28,6 +29,7 @@ class MoodSelector extends StatelessWidget {
       children: _moods.map((mood) {
         final isSelected = selectedMood == mood;
         final color = AppColors.moodColor(mood);
+        final t = context.tokens;
         return GestureDetector(
           onTap: () => onMoodSelected(mood),
           child: AnimatedContainer(
@@ -36,12 +38,12 @@ class MoodSelector extends StatelessWidget {
             decoration: BoxDecoration(
               color: isSelected
                   ? color.withValues(alpha: 0.15)
-                  : AppColors.surfaceCard,
+                  : t.surfaceCard,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: isSelected
                     ? color.withValues(alpha: 0.6)
-                    : AppColors.divider,
+                    : t.divider,
                 width: isSelected ? 1.5 : 1,
               ),
             ),
@@ -50,14 +52,14 @@ class MoodSelector extends StatelessWidget {
               children: [
                 Icon(
                   _moodIcons[mood] ?? Icons.mood_rounded,
-                  color: isSelected ? color : AppColors.textTertiary,
+                  color: isSelected ? color : t.textTertiary,
                   size: 16,
                 ),
                 const SizedBox(width: 6),
                 Text(
                   mood,
                   style: TextStyle(
-                    color: isSelected ? color : AppColors.textSecondary,
+                    color: isSelected ? color : t.textSecondary,
                     fontSize: 14,
                     fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                   ),
