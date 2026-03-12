@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'app.dart';
+import 'data/repositories/analytics_repository.dart';
 import 'data/repositories/journal_repository.dart';
 import 'data/repositories/session_repository.dart';
 
@@ -21,6 +22,7 @@ Future<void> main() async {
   await Hive.initFlutter();
   await JournalRepository.init();
   await SessionRepository.init();
+  await AnalyticsRepository.init();
 
   runApp(const ProviderScope(child: ArvyaXApp()));
 }

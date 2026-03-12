@@ -1,12 +1,13 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:just_audio/just_audio.dart';
 import '../../../data/models/ambience.dart';
 import '../../../data/models/player_session.dart';
-import '../../../data/repositories/ambience_repository.dart';
+import '../../../data/models/analytics_event.dart';
+import '../../../data/repositories/analytics_repository.dart';
 import '../../../data/repositories/session_repository.dart';
-import '../../ambience/providers/ambience_provider.dart';
 
 final sessionRepositoryProvider =
     Provider<SessionRepository>((_) => SessionRepository());
@@ -62,52 +63,16 @@ class PlayerState {
 
 class PlayerNotifier extends StateNotifier<PlayerState> {
   final SessionRepository _sessionRepo;
-  final AmbienceRepository _ambienceRepo;
+  final AnalyticsRepository _analyticsRepo;
   final AudioPlayer _audioPlayer = AudioPlayer();
   Timer? _timer;
   int _sessionToken = 0; // used to cancel stale startSession continuations
+  bool _wasPlayingBeforeBackground = false;
 
-  PlayerNotifier(this._sessionRepo, this._ambienceRepo)
+  PlayerNotifier(this._sessionRepo, this._analyticsRepo)
       : super(const PlayerState()) {
     // Clear any leftover session from a previous app run on startup
     _sessionRepo.clearSession();
-  }
-
-  Future<void> _restoreFromPersistence() async {
-    try {
-      final saved = _sessionRepo.loadSession();
-      if (saved == null) return;
-
-      // Discard stale sessions (> 24 hours)
-      if (DateTime.now().difference(saved.savedAt).inHours > 24) {
-        await _sessionRepo.clearSession();
-        return;
-      }
-
-      final ambiences = await _ambienceRepo.loadAmbiences();
-      final matches = ambiences.where((a) => a.id == saved.ambienceId);
-      if (matches.isEmpty) return;
-
-      final ambience = matches.first;
-      final elapsed = saved.elapsedSeconds;
-
-      // Session already completed
-      if (elapsed >= ambience.durationMinutes * 60) {
-        await _sessionRepo.clearSession();
-        return;
-      }
-
-      await _initAudio();
-      state = state.copyWith(
-        ambience: ambience,
-        position: Duration(seconds: elapsed),
-        isPlaying: false,
-        isSessionActive: true,
-        isCompleted: false,
-      );
-    } catch (e) {
-      debugPrint('[PlayerNotifier] restore error: $e');
-    }
   }
 
   Future<void> startSession(Ambience ambience) async {
@@ -121,6 +86,10 @@ class PlayerNotifier extends StateNotifier<PlayerState> {
       isSessionActive: true,
       isCompleted: false,
     );
+    _logEvent('session_start', {
+      'ambience_id': ambience.id,
+      'ambience_title': ambience.title,
+    });
     await _stopCurrent();
     if (_sessionToken != token) return; // a newer session was started, bail out
     await _initAudio();
@@ -152,6 +121,11 @@ class PlayerNotifier extends StateNotifier<PlayerState> {
       final newPos = state.position + const Duration(seconds: 1);
       if (newPos >= state.totalDuration) {
         _timer?.cancel();
+        _logEvent('session_end', {
+          'ambience_id': state.ambience?.id ?? '',
+          'elapsed_seconds': newPos.inSeconds.toString(),
+          'completed': 'true',
+        });
         state = state.copyWith(
           position: state.totalDuration,
           isPlaying: false,
@@ -194,6 +168,8 @@ class PlayerNotifier extends StateNotifier<PlayerState> {
   }
 
   Future<void> endSession() async {
+    final ambience = state.ambience;
+    final elapsed = state.position.inSeconds;
     _timer?.cancel();
     await _audioPlayer.pause();
     await _sessionRepo.clearSession();
@@ -203,6 +179,13 @@ class PlayerNotifier extends StateNotifier<PlayerState> {
       isCompleted: true,
       isPlayerScreenOpen: false,
     );
+    if (ambience != null) {
+      _logEvent('session_end', {
+        'ambience_id': ambience.id,
+        'elapsed_seconds': elapsed.toString(),
+        'completed': 'false',
+      });
+    }
   }
 
   void setPlayerScreenOpen(bool open) {
@@ -211,6 +194,53 @@ class PlayerNotifier extends StateNotifier<PlayerState> {
 
   void resetCompletedState() {
     state = state.copyWith(isCompleted: false);
+  }
+
+  // ── App Lifecycle ──────────────────────────────────────────────────────────
+
+  void handleLifecycleChange(AppLifecycleState lifecycleState) {
+    switch (lifecycleState) {
+      case AppLifecycleState.paused:
+      case AppLifecycleState.detached:
+      case AppLifecycleState.hidden:
+        _pauseForBackground();
+        break;
+      case AppLifecycleState.resumed:
+        _resumeFromBackground();
+        break;
+      case AppLifecycleState.inactive:
+        break;
+    }
+  }
+
+  void _pauseForBackground() {
+    if (!state.isPlaying) return;
+    _wasPlayingBeforeBackground = true;
+    _timer?.cancel();
+    _audioPlayer.pause();
+    state = state.copyWith(isPlaying: false);
+  }
+
+  void _resumeFromBackground() {
+    if (!_wasPlayingBeforeBackground || !state.isSessionActive) return;
+    _wasPlayingBeforeBackground = false;
+    state = state.copyWith(isPlaying: true);
+    _audioPlayer.play().catchError((e) {
+      debugPrint('[PlayerNotifier] resume play error: $e');
+    });
+    _startTimer();
+  }
+
+  // ── Analytics ─────────────────────────────────────────────────────────────
+
+  void _logEvent(String type, Map<String, String> metadata) {
+    _analyticsRepo
+        .log(AnalyticsEvent(
+          type: type,
+          timestamp: DateTime.now(),
+          metadata: metadata,
+        ))
+        .catchError((e) => debugPrint('[Analytics] $e'));
   }
 
   Future<void> _stopCurrent() async {
@@ -242,6 +272,6 @@ final playerProvider =
     StateNotifierProvider<PlayerNotifier, PlayerState>((ref) {
   return PlayerNotifier(
     ref.watch(sessionRepositoryProvider),
-    ref.watch(ambienceRepositoryProvider),
+    ref.watch(analyticsRepositoryProvider),
   );
 });

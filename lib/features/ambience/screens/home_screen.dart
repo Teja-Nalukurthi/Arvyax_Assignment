@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../data/models/ambience.dart';
 import '../../../shared/theme/app_colors.dart';
+import '../../../shared/providers/theme_provider.dart';
 import '../../../shared/widgets/mini_player_bar.dart';
 import '../providers/ambience_provider.dart';
 import '../widgets/ambience_card.dart';
@@ -75,6 +76,20 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ],
           ),
           const Spacer(),
+          IconButton(
+            icon: Icon(
+              ref.watch(themeModeProvider) == ThemeMode.dark
+                  ? Icons.light_mode_rounded
+                  : Icons.dark_mode_rounded,
+              size: 22,
+            ),
+            onPressed: () {
+              final current = ref.read(themeModeProvider);
+              ref.read(themeModeProvider.notifier).state =
+                  current == ThemeMode.dark ? ThemeMode.light : ThemeMode.dark;
+            },
+            tooltip: 'Toggle theme',
+          ),
           IconButton(
             icon: const Icon(Icons.history_rounded, size: 24),
             onPressed: () => Navigator.of(context).pushNamed('/history'),

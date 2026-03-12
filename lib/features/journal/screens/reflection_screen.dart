@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../data/models/ambience.dart';
+import '../../../data/models/analytics_event.dart';
 import '../../../data/models/journal_entry.dart';
+import '../../../data/repositories/analytics_repository.dart';
 import '../../../shared/theme/app_colors.dart';
 import '../providers/journal_provider.dart';
 import '../widgets/mood_selector.dart';
@@ -190,6 +192,14 @@ class _ReflectionScreenState extends ConsumerState<ReflectionScreen> {
     );
 
     await ref.read(journalProvider.notifier).addEntry(entry);
+    await ref.read(analyticsRepositoryProvider).log(AnalyticsEvent(
+      type: 'journal_saved',
+      timestamp: DateTime.now(),
+      metadata: {
+        'ambience_id': widget.ambience.id,
+        'mood': mood,
+      },
+    ));
     HapticFeedback.mediumImpact();
 
     if (context.mounted) {

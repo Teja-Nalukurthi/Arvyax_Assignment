@@ -7,18 +7,46 @@ import 'features/ambience/screens/home_screen.dart';
 import 'features/journal/screens/journal_detail_screen.dart';
 import 'features/journal/screens/journal_history_screen.dart';
 import 'features/journal/screens/reflection_screen.dart';
+import 'features/player/providers/player_provider.dart';
 import 'features/player/screens/session_player_screen.dart';
+import 'shared/providers/theme_provider.dart';
 import 'shared/theme/app_theme.dart';
 
-class ArvyaXApp extends ConsumerWidget {
+class ArvyaXApp extends ConsumerStatefulWidget {
   const ArvyaXApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<ArvyaXApp> createState() => _ArvyaXAppState();
+}
+
+class _ArvyaXAppState extends ConsumerState<ArvyaXApp>
+    with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    ref.read(playerProvider.notifier).handleLifecycleChange(state);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final themeMode = ref.watch(themeModeProvider);
     return MaterialApp(
       title: 'ArvyaX',
       debugShowCheckedModeBanner: false,
-      theme: AppTheme.darkTheme,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: themeMode,
       initialRoute: '/',
       routes: {
         '/': (ctx) => const HomeScreen(),
