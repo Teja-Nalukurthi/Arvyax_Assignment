@@ -214,6 +214,10 @@ class _SessionPlayerScreenState extends ConsumerState<SessionPlayerScreen> {
           SliderTheme(
             data: SliderTheme.of(context).copyWith(
               overlayShape: const RoundSliderOverlayShape(overlayRadius: 14),
+              activeTrackColor: AppColors.accent,
+              inactiveTrackColor: Colors.white24,
+              thumbColor: AppColors.accent,
+              overlayColor: AppColors.accent.withValues(alpha: 0.2),
             ),
             child: Slider(
               value:
@@ -285,21 +289,40 @@ class _SessionPlayerScreenState extends ConsumerState<SessionPlayerScreen> {
   Future<void> _confirmEndSession(BuildContext context, WidgetRef ref) async {
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('End Session?'),
-        content: const Text(
-            'Your session will end and you\'ll be taken to your reflection.'),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
+      builder: (ctx) => Theme(
+        data: ThemeData.dark().copyWith(
+          dialogTheme: DialogThemeData(
+            backgroundColor: AppColors.surfaceCard,
+            titleTextStyle: const TextStyle(
+              color: AppColors.textPrimary,
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+            contentTextStyle: const TextStyle(
+              color: AppColors.textSecondary,
+              fontSize: 15,
+            ),
           ),
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            style: TextButton.styleFrom(foregroundColor: AppColors.textPrimary),
-            child: const Text('End'),
-          ),
-        ],
+        ),
+        child: AlertDialog(
+          title: const Text('End Session?'),
+          content: const Text(
+              'Your session will end and you\'ll be taken to your reflection.'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, false),
+              style: TextButton.styleFrom(
+                  foregroundColor: AppColors.textSecondary),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(ctx, true),
+              style:
+                  TextButton.styleFrom(foregroundColor: AppColors.accent),
+              child: const Text('End'),
+            ),
+          ],
+        ),
       ),
     );
 
