@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../features/player/providers/player_provider.dart';
 import '../../shared/theme/app_colors.dart';
+import '../../shared/theme/app_theme.dart';
 
 class MiniPlayerBar extends ConsumerWidget {
   const MiniPlayerBar({super.key});
@@ -13,6 +14,7 @@ class MiniPlayerBar extends ConsumerWidget {
     if (!playerState.showMiniPlayer) return const SizedBox.shrink();
 
     final ambience = playerState.ambience!;
+    final t = context.tokens;
 
     return GestureDetector(
       onTap: () {
@@ -21,9 +23,9 @@ class MiniPlayerBar extends ConsumerWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
         decoration: BoxDecoration(
-          color: AppColors.surfaceCard,
+          color: t.surfaceCard,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.divider),
+          border: Border.all(color: t.divider),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.3),
@@ -41,7 +43,7 @@ class MiniPlayerBar extends ConsumerWidget {
                   const BorderRadius.vertical(top: Radius.circular(16)),
               child: LinearProgressIndicator(
                 value: playerState.progress,
-                backgroundColor: AppColors.divider,
+                backgroundColor: t.divider,
                 valueColor:
                     const AlwaysStoppedAnimation<Color>(AppColors.accent),
                 minHeight: 2,
@@ -73,8 +75,8 @@ class MiniPlayerBar extends ConsumerWidget {
                       children: [
                         Text(
                           ambience.title,
-                          style: const TextStyle(
-                            color: AppColors.textPrimary,
+                          style: TextStyle(
+                            color: t.textPrimary,
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                           ),
@@ -84,8 +86,8 @@ class MiniPlayerBar extends ConsumerWidget {
                         const SizedBox(height: 2),
                         Text(
                           _formatDuration(playerState.position),
-                          style: const TextStyle(
-                            color: AppColors.textSecondary,
+                          style: TextStyle(
+                            color: t.textSecondary,
                             fontSize: 12,
                           ),
                         ),

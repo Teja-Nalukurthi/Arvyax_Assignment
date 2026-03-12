@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../data/models/ambience.dart';
 import '../../../shared/theme/app_colors.dart';
+import '../../../shared/theme/app_theme.dart';
 import '../../../shared/providers/theme_provider.dart';
 import '../../../shared/widgets/mini_player_bar.dart';
 import '../providers/ambience_provider.dart';
@@ -60,16 +61,16 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               Text(
                 'ArvyaX',
                 style: Theme.of(context).textTheme.displaySmall?.copyWith(
-                      color: AppColors.textPrimary,
+                      color: context.tokens.textPrimary,
                       fontWeight: FontWeight.w700,
                       fontSize: 28,
                     ),
               ),
               const SizedBox(height: 2),
-              const Text(
+              Text(
                 'Choose your ambience',
                 style: TextStyle(
-                  color: AppColors.textSecondary,
+                  color: context.tokens.textSecondary,
                   fontSize: 14,
                 ),
               ),
@@ -106,15 +107,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       child: TextField(
         controller: _searchController,
         onChanged: notifier.setSearch,
-        style: const TextStyle(color: AppColors.textPrimary, fontSize: 15),
+        style: TextStyle(color: context.tokens.textPrimary, fontSize: 15),
         decoration: InputDecoration(
           hintText: 'Search ambiences…',
-          prefixIcon: const Icon(Icons.search_rounded,
-              color: AppColors.textTertiary, size: 20),
+          prefixIcon: Icon(Icons.search_rounded,
+              color: context.tokens.textTertiary, size: 20),
           suffixIcon: _searchController.text.isNotEmpty
               ? IconButton(
-                  icon: const Icon(Icons.close_rounded,
-                      color: AppColors.textTertiary, size: 18),
+                  icon: Icon(Icons.close_rounded,
+                      color: context.tokens.textTertiary, size: 18),
                   onPressed: () {
                     _searchController.clear();
                     notifier.setSearch('');
@@ -145,12 +146,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 decoration: BoxDecoration(
                   color: isSelected
                       ? AppColors.tagBgColor(tag)
-                      : AppColors.surfaceCard,
+                      : context.tokens.surfaceCard,
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
                     color: isSelected
                         ? AppColors.tagColor(tag).withValues(alpha: 0.5)
-                        : AppColors.divider,
+                        : context.tokens.divider,
                   ),
                 ),
                 child: Text(
@@ -158,7 +159,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   style: TextStyle(
                     color: isSelected
                         ? AppColors.tagColor(tag)
-                        : AppColors.textSecondary,
+                        : context.tokens.textSecondary,
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
                   ),
@@ -182,7 +183,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       return Center(
         child: Text(
           'Failed to load ambiences',
-          style: const TextStyle(color: AppColors.textSecondary),
+          style: TextStyle(color: context.tokens.textSecondary),
         ),
       );
     }
@@ -213,25 +214,25 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
+            Icon(
               Icons.search_off_rounded,
-              color: AppColors.textTertiary,
+              color: context.tokens.textTertiary,
               size: 48,
             ),
             const SizedBox(height: 16),
-            const Text(
+            Text(
               'No ambiences found',
               style: TextStyle(
-                color: AppColors.textPrimary,
+                color: context.tokens.textPrimary,
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
               ),
             ),
             const SizedBox(height: 8),
-            const Text(
+            Text(
               'Try a different search or clear your filters.',
               style: TextStyle(
-                color: AppColors.textSecondary,
+                color: context.tokens.textSecondary,
                 fontSize: 14,
               ),
               textAlign: TextAlign.center,

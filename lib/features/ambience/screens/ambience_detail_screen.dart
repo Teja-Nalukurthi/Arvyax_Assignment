@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../data/models/ambience.dart';
 import '../../../shared/theme/app_colors.dart';
+import '../../../shared/theme/app_theme.dart';
 import '../../../shared/widgets/mini_player_bar.dart';
 import '../../../shared/widgets/tag_chip.dart';
 import '../../player/providers/player_provider.dart';
@@ -94,7 +95,7 @@ class AmbienceDetailScreen extends ConsumerWidget {
                     end: Alignment.bottomCenter,
                     colors: [
                       Colors.transparent,
-                      AppColors.background,
+                      context.tokens.background,
                     ],
                   ),
                 ),
@@ -120,20 +121,20 @@ class AmbienceDetailScreen extends ConsumerWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
-                  color: AppColors.surfaceCard,
+                  color: context.tokens.surfaceCard,
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: AppColors.divider),
+                  border: Border.all(color: context.tokens.divider),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Icon(Icons.timer_outlined,
-                        color: AppColors.textTertiary, size: 13),
+                    Icon(Icons.timer_outlined,
+                        color: context.tokens.textTertiary, size: 13),
                     const SizedBox(width: 4),
                     Text(
                       ambience.durationLabel,
-                      style: const TextStyle(
-                        color: AppColors.textSecondary,
+                      style: TextStyle(
+                        color: context.tokens.textSecondary,
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                       ),
@@ -146,8 +147,8 @@ class AmbienceDetailScreen extends ConsumerWidget {
           const SizedBox(height: 16),
           Text(
             ambience.title,
-            style: const TextStyle(
-              color: AppColors.textPrimary,
+            style: TextStyle(
+              color: context.tokens.textPrimary,
               fontSize: 28,
               fontWeight: FontWeight.w700,
               height: 1.2,
@@ -156,17 +157,17 @@ class AmbienceDetailScreen extends ConsumerWidget {
           const SizedBox(height: 16),
           Text(
             ambience.description,
-            style: const TextStyle(
-              color: AppColors.textSecondary,
+            style: TextStyle(
+              color: context.tokens.textSecondary,
               fontSize: 15,
               height: 1.7,
             ),
           ),
           const SizedBox(height: 24),
-          const Text(
+          Text(
             'SENSORY RECIPE',
             style: TextStyle(
-              color: AppColors.textTertiary,
+              color: context.tokens.textTertiary,
               fontSize: 11,
               fontWeight: FontWeight.w700,
               letterSpacing: 1.2,
@@ -190,8 +191,8 @@ class AmbienceDetailScreen extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 12, 20, 4),
       decoration: BoxDecoration(
-        color: AppColors.background,
-        border: const Border(top: BorderSide(color: AppColors.divider)),
+        color: context.tokens.background,
+        border: Border(top: BorderSide(color: context.tokens.divider)),
       ),
       child: SafeArea(
         top: false,
@@ -220,14 +221,14 @@ class _SensoryChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
       decoration: BoxDecoration(
-        color: AppColors.surfaceElevated,
+        color: context.tokens.surfaceElevated,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.divider),
+        border: Border.all(color: context.tokens.divider),
       ),
       child: Text(
         label,
-        style: const TextStyle(
-          color: AppColors.textSecondary,
+        style: TextStyle(
+          color: context.tokens.textSecondary,
           fontSize: 13,
           fontWeight: FontWeight.w500,
         ),

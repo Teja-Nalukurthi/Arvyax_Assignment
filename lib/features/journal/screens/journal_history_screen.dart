@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../data/models/journal_entry.dart';
 import '../../../shared/theme/app_colors.dart';
+import '../../../shared/theme/app_theme.dart';
 import '../providers/journal_provider.dart';
 
 class JournalHistoryScreen extends ConsumerWidget {
@@ -54,25 +55,25 @@ class JournalHistoryScreen extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(
+            Icon(
               Icons.book_outlined,
-              color: AppColors.textTertiary,
+              color: context.tokens.textTertiary,
               size: 52,
             ),
             const SizedBox(height: 16),
-            const Text(
+            Text(
               'No reflections yet',
               style: TextStyle(
-                color: AppColors.textPrimary,
+                color: context.tokens.textPrimary,
                 fontSize: 18,
                 fontWeight: FontWeight.w600,
               ),
             ),
             const SizedBox(height: 8),
-            const Text(
+            Text(
               'Start a session to begin your journal.',
               style: TextStyle(
-                color: AppColors.textSecondary,
+                color: context.tokens.textSecondary,
                 fontSize: 14,
               ),
               textAlign: TextAlign.center,
@@ -99,6 +100,7 @@ class _JournalEntryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final moodColor = AppColors.moodColor(entry.mood);
+    final t = context.tokens;
 
     return GestureDetector(
       onTap: onTap,
@@ -106,9 +108,9 @@ class _JournalEntryCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         margin: const EdgeInsets.symmetric(vertical: 4),
         decoration: BoxDecoration(
-          color: AppColors.surfaceCard,
+          color: t.surfaceCard,
           borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppColors.divider),
+          border: Border.all(color: t.divider),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,8 +137,8 @@ class _JournalEntryCard extends StatelessWidget {
                 const Spacer(),
                 Text(
                   entry.formattedDate,
-                  style: const TextStyle(
-                    color: AppColors.textTertiary,
+                  style: TextStyle(
+                    color: t.textTertiary,
                     fontSize: 11,
                   ),
                 ),
@@ -154,8 +156,8 @@ class _JournalEntryCard extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               entry.firstLine.isEmpty ? 'No text' : entry.firstLine,
-              style: const TextStyle(
-                color: AppColors.textSecondary,
+              style: TextStyle(
+                color: t.textSecondary,
                 fontSize: 14,
                 height: 1.4,
               ),

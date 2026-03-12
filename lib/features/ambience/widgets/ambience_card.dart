@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../data/models/ambience.dart';
 import '../../../shared/theme/app_colors.dart';
+import '../../../shared/theme/app_theme.dart';
 import '../../../shared/widgets/tag_chip.dart';
 
 class AmbienceCard extends StatelessWidget {
@@ -20,9 +21,9 @@ class AmbienceCard extends StatelessWidget {
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
         decoration: BoxDecoration(
-          color: AppColors.surfaceCard,
+          color: context.tokens.surfaceCard,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.divider),
+          border: Border.all(color: context.tokens.divider),
         ),
         child: Row(
           children: [
@@ -67,8 +68,8 @@ class AmbienceCard extends StatelessWidget {
                         const Spacer(),
                         Text(
                           ambience.durationLabel,
-                          style: const TextStyle(
-                            color: AppColors.textTertiary,
+                          style: TextStyle(
+                            color: context.tokens.textTertiary,
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
                           ),
@@ -78,8 +79,8 @@ class AmbienceCard extends StatelessWidget {
                     const SizedBox(height: 8),
                     Text(
                       ambience.title,
-                      style: const TextStyle(
-                        color: AppColors.textPrimary,
+                      style: TextStyle(
+                        color: context.tokens.textPrimary,
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                       ),
@@ -87,8 +88,8 @@ class AmbienceCard extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       ambience.sensoryRecipes.take(3).join(' · '),
-                      style: const TextStyle(
-                        color: AppColors.textTertiary,
+                      style: TextStyle(
+                        color: context.tokens.textTertiary,
                         fontSize: 12,
                       ),
                       maxLines: 1,
@@ -98,11 +99,11 @@ class AmbienceCard extends StatelessWidget {
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(right: 12),
+            Padding(
+              padding: const EdgeInsets.only(right: 12),
               child: Icon(
                 Icons.arrow_forward_ios_rounded,
-                color: AppColors.textTertiary,
+                color: context.tokens.textTertiary,
                 size: 14,
               ),
             ),

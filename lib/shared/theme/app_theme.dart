@@ -344,8 +344,7 @@ abstract class AppTheme {
         trackHeight: 3,
         thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 7),
       ),
-      dividerTheme:
-          DividerThemeData(color: t.divider, thickness: 1, space: 0),
+      dividerTheme: DividerThemeData(color: t.divider, thickness: 1, space: 0),
       chipTheme: ChipThemeData(
         backgroundColor: t.surfaceCard,
         selectedColor: AppColors.accentDim,
@@ -372,8 +371,8 @@ abstract class AppTheme {
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: AppColors.accent,
-          textStyle: GoogleFonts.outfit(
-              fontSize: 14, fontWeight: FontWeight.w500),
+          textStyle:
+              GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.w500),
         ),
       ),
       iconButtonTheme: IconButtonThemeData(
@@ -381,8 +380,7 @@ abstract class AppTheme {
       ),
       dialogTheme: DialogThemeData(
         backgroundColor: t.surfaceElevated,
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         titleTextStyle: GoogleFonts.outfit(
             color: t.textPrimary, fontSize: 18, fontWeight: FontWeight.w600),
         contentTextStyle:

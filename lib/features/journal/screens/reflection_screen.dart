@@ -6,6 +6,7 @@ import '../../../data/models/analytics_event.dart';
 import '../../../data/models/journal_entry.dart';
 import '../../../data/repositories/analytics_repository.dart';
 import '../../../shared/theme/app_colors.dart';
+import '../../../shared/theme/app_theme.dart';
 import '../providers/journal_provider.dart';
 import '../widgets/mood_selector.dart';
 
@@ -63,9 +64,9 @@ class _ReflectionScreenState extends ConsumerState<ReflectionScreen> {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: AppColors.surfaceCard,
+        color: context.tokens.surfaceCard,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.divider),
+        border: Border.all(color: context.tokens.divider),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,10 +87,10 @@ class _ReflectionScreenState extends ConsumerState<ReflectionScreen> {
             ],
           ),
           const SizedBox(height: 12),
-          const Text(
+          Text(
             '"What is gently present with you right now?"',
             style: TextStyle(
-              color: AppColors.textPrimary,
+              color: context.tokens.textPrimary,
               fontSize: 18,
               fontWeight: FontWeight.w500,
               fontStyle: FontStyle.italic,
@@ -106,8 +107,8 @@ class _ReflectionScreenState extends ConsumerState<ReflectionScreen> {
       controller: _journalController,
       maxLines: 8,
       minLines: 5,
-      style: const TextStyle(
-        color: AppColors.textPrimary,
+      style: TextStyle(
+        color: context.tokens.textPrimary,
         fontSize: 15,
         height: 1.6,
       ),
@@ -122,10 +123,10 @@ class _ReflectionScreenState extends ConsumerState<ReflectionScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           'HOW DO YOU FEEL?',
           style: TextStyle(
-            color: AppColors.textTertiary,
+            color: context.tokens.textTertiary,
             fontSize: 11,
             fontWeight: FontWeight.w700,
             letterSpacing: 1.2,
@@ -149,7 +150,7 @@ class _ReflectionScreenState extends ConsumerState<ReflectionScreen> {
               width: 20,
               child: CircularProgressIndicator(
                 strokeWidth: 2,
-                color: AppColors.background,
+                color: Colors.white,
               ),
             )
           : const Text('Save Reflection'),
@@ -162,9 +163,9 @@ class _ReflectionScreenState extends ConsumerState<ReflectionScreen> {
 
     if (text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please write something before saving.'),
-          backgroundColor: AppColors.surfaceCard,
+        SnackBar(
+          content: const Text('Please write something before saving.'),
+          backgroundColor: context.tokens.surfaceCard,
         ),
       );
       return;
@@ -172,9 +173,9 @@ class _ReflectionScreenState extends ConsumerState<ReflectionScreen> {
 
     if (mood == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please select a mood.'),
-          backgroundColor: AppColors.surfaceCard,
+        SnackBar(
+          content: const Text('Please select a mood.'),
+          backgroundColor: context.tokens.surfaceCard,
         ),
       );
       return;
@@ -193,13 +194,13 @@ class _ReflectionScreenState extends ConsumerState<ReflectionScreen> {
 
     await ref.read(journalProvider.notifier).addEntry(entry);
     await ref.read(analyticsRepositoryProvider).log(AnalyticsEvent(
-      type: 'journal_saved',
-      timestamp: DateTime.now(),
-      metadata: {
-        'ambience_id': widget.ambience.id,
-        'mood': mood,
-      },
-    ));
+          type: 'journal_saved',
+          timestamp: DateTime.now(),
+          metadata: {
+            'ambience_id': widget.ambience.id,
+            'mood': mood,
+          },
+        ));
     HapticFeedback.mediumImpact();
 
     if (context.mounted) {

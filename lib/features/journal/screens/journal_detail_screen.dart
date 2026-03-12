@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../data/models/journal_entry.dart';
 import '../../../shared/theme/app_colors.dart';
+import '../../../shared/theme/app_theme.dart';
 
 class JournalDetailScreen extends StatelessWidget {
   final JournalEntry entry;
@@ -10,6 +11,7 @@ class JournalDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final moodColor = AppColors.moodColor(entry.mood);
+    final t = context.tokens;
 
     return Scaffold(
       appBar: AppBar(
@@ -29,9 +31,9 @@ class JournalDetailScreen extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: AppColors.surfaceCard,
+                  color: t.surfaceCard,
                   borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: AppColors.divider),
+                  border: Border.all(color: t.divider),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,8 +61,8 @@ class JournalDetailScreen extends StatelessWidget {
                         const Spacer(),
                         Text(
                           entry.formattedDate,
-                          style: const TextStyle(
-                            color: AppColors.textTertiary,
+                          style: TextStyle(
+                            color: t.textTertiary,
                             fontSize: 12,
                           ),
                         ),
@@ -86,10 +88,10 @@ class JournalDetailScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 24),
-              const Text(
+              Text(
                 'YOUR REFLECTION',
                 style: TextStyle(
-                  color: AppColors.textTertiary,
+                  color: t.textTertiary,
                   fontSize: 11,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 1.2,
@@ -100,14 +102,14 @@ class JournalDetailScreen extends StatelessWidget {
                 width: double.infinity,
                 padding: const EdgeInsets.all(18),
                 decoration: BoxDecoration(
-                  color: AppColors.surfaceElevated,
+                  color: t.surfaceElevated,
                   borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: AppColors.divider),
+                  border: Border.all(color: t.divider),
                 ),
                 child: SelectableText(
                   entry.text.isEmpty ? 'No text written.' : entry.text,
-                  style: const TextStyle(
-                    color: AppColors.textPrimary,
+                  style: TextStyle(
+                    color: t.textPrimary,
                     fontSize: 15,
                     height: 1.7,
                   ),
