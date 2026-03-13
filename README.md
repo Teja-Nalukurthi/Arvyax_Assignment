@@ -1,4 +1,4 @@
-Immersive Session & Reflection Mini App
+#Immersive Session & Reflection Mini App
 
 The experience is designed to feel **calm, minimal, and premium** — guided audio sessions with journaling and history.
 
@@ -24,6 +24,8 @@ flutter run
 
 # 4. Build a release APK
 flutter build apk --release
+
+```
 
 
 
@@ -145,22 +147,3 @@ The bundled file `assets/audio/ambient_loop.wav` is a programmatically generated
 To replace with a real ambient field recording, simply swap in any WAV/MP3 file at that path and update `pubspec.yaml` if the filename changes.
 
 ---
-
-## Tradeoffs & What I'd Improve with Two More Days
-
-### What I'd change
-
-1. **Real ambient audio** – Record or license a proper binaural/nature loop. The synthesised sine wave placeholder works but lacks warmth.
-
-2. **Image caching** – Add `cached_network_image` for offline thumbnail support and smoother loading, instead of relying on `Image.network`.
-
-3. **Background audio continuity** – Wrap the audio player in a foreground service (Android) / background audio session (iOS) so the session survives app backgrounding. Currently the timer pauses when the app is killed.
-
-4. **Session pause on background** – Implement `AppLifecycleListener` to pause the timer when the app enters the background and resume it when it returns to the foreground (Bonus Option 1).
-
-5. **Animations** – Elevate the breathing animation with a `Lottie` or custom `CustomPainter` particle effect for a more premium feel.
-
-6. **Error states** – Add proper error UI for Hive read failures and network image timeouts with retry logic.
-
-7. **Accessibility** – Label all interactive elements with `Semantics` widgets and test with `TalkBack`/`VoiceOver` (Bonus Option 5).
-
