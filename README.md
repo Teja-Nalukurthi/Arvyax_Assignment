@@ -1,4 +1,4 @@
-#Immersive Session & Reflection Mini App
+# Immersive Session & Reflection Mini App
 
 The experience is designed to feel **calm, minimal, and premium** — guided audio sessions with journaling and history.
 
